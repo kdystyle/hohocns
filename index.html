@@ -69,7 +69,6 @@
 
         const IMAGES = {
             hero: `${IMG_BASE_URL}/logo.png`, 
-            // 창업상담 메뉴 이미지 (map.png 연동)
             franchiseHero: `${IMG_BASE_URL}/map.png` 
         };
 
@@ -92,7 +91,7 @@
             facilities: ["주차가능(무료)", "단체석", "포장", "예약", "무선 인터넷", "남/녀 화장실 구분"]
         };
 
-        // 메뉴 데이터 - ID 1~14 이미지 자동 연동
+        // 메뉴 데이터
         const MENUS = [
             {
                 category: "화덕 생선구이 (공기밥 별도)",
@@ -102,7 +101,7 @@
                     { id: 3, name: "임연수구이", price: 17000, desc: "부드러운 살결과 고소한 껍질 맛이 일품인 생선", img: `${IMG_BASE_URL}/3.png` },
                     { id: 4, name: "삼치구이", price: 17000, desc: "두툼한 살코기로 담백한 맛을 즐기는 보양식", img: `${IMG_BASE_URL}/4.png` },
                     { id: 5, name: "민어구이", price: 19000, desc: "담백하고 쫄깃한 식감이 일품인 보양 생선", img: `${IMG_BASE_URL}/5.png` },
-                    { id: 6, name: "제주갈치구이", price: 17000, desc: "제주산 은갈치의 고소하고 부드러운 풍미", img: `${IMG_BASE_URL}/6.png` },
+                    { id: 6, name: "갈치구이", price: 17000, desc: "제주산 은갈치의 고소하고 부드러운 풍미", img: `${IMG_BASE_URL}/6.png` },
                 ]
             },
             {
@@ -566,11 +565,8 @@
                     <FranchiseModal isOpen={isFranchiseModalOpen} onClose={() => setIsFranchiseModalOpen(false)} triggerToast={triggerToast} />
 
                     <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 max-w-md mx-auto ${isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-4'}`}>
-                        <div className="px-5 flex justify-between items-center">
-                            <button onClick={handleGoBack} className={`p-2 rounded-full transition-colors ${isScrolled ? 'text-gray-900 hover:bg-gray-100' : 'bg-black/30 text-white backdrop-blur-sm hover:bg-black/40'}`}>
-                                <ChevronRight className="rotate-180 w-5 h-5" />
-                            </button>
-                            {isScrolled && <span className="font-bold text-lg text-gray-900 truncate max-w-[200px]">{RESTAURANT_INFO.name}</span>}
+                        <div className="px-5 flex justify-between items-center relative">
+                            {/* 좌측: 찜 & 공유 버튼 */}
                             <div className="flex gap-3">
                                 <button onClick={handleLike} className={`p-2 rounded-full transition-all active:scale-90 ${isScrolled ? 'text-gray-900 hover:bg-gray-100' : 'bg-black/30 text-white backdrop-blur-sm hover:bg-black/40'}`}>
                                     <Heart className={`w-5 h-5 transition-colors ${isLiked ? 'fill-red-500 text-red-500' : ''}`} />
@@ -579,6 +575,16 @@
                                     <Share2 className="w-5 h-5" />
                                 </button>
                             </div>
+                            
+                            {/* 중앙: 타이틀 (스크롤 시) */}
+                            {isScrolled && (
+                                <span className="font-bold text-lg text-gray-900 truncate max-w-[200px] absolute left-1/2 -translate-x-1/2">
+                                    {RESTAURANT_INFO.name}
+                                </span>
+                            )}
+                            
+                            {/* 우측: 균형을 위한 빈 공간 */}
+                            <div className="w-[88px]"></div>
                         </div>
                     </header>
 
@@ -773,7 +779,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <p className="text-gray-700 text-sm leading-relaxed mb-3">{review.content}</p>
+                                            
                                             <div className="flex flex-wrap gap-2">
                                                 {review.tags.map((tag, i) => (
                                                     <span key={i} className="text-xs bg-gray-100 text-gray-500 px-2 py-1 rounded">
